@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): Record<string, string> {
-    return { title: 'ArchLinux' };
+    return { title: 'Yeah ArchLinux' };
   }
 }
