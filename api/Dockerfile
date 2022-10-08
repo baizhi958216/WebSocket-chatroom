@@ -6,13 +6,13 @@ FROM node:16 AS development
 WORKDIR /baizhi958216/src/app
 
 # Copy pageage-lock.json & pageage.json from host to inside container working directory
-COPY package*.json ./
+COPY *.json /baizhi958216/src/app
 
 # Install deps inside container
 RUN yarn
 
 # Bundle App Sources
-COPY . .
+# COPY . .
 
 RUN yarn build
 
@@ -30,7 +30,8 @@ ENV NODE_ENV=${NODE_ENV}
 # Set work dir
 WORKDIR /baizhi958216/src/app
 
-COPY --from=development /baizhi958216/src/app/ .
+COPY package.json /baizhi958216/src/app
+# COPY --from=development /baizhi958216/src/app/ .
 
 EXPOSE 3000
 
