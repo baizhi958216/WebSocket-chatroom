@@ -50,6 +50,10 @@ export class UserService {
     });
   }
 
+  public getOne(id: number): Promise<UserI> {
+    return this.userRepository.findOneByOrFail({ id: id });
+  }
+
   async login(user: UserI): Promise<string> {
     console.log('查找用户... ');
     try {

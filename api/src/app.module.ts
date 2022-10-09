@@ -1,10 +1,16 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { AuthMiddleWare } from './middleware/auth.middleware';
 
 @Module({
   imports: [
@@ -17,18 +23,24 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
-    /* TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '123456',
-      database: 'postgres',
-      autoLoadEntities: true,
-      synchronize: true,
-    }), */
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleWare)
+      .exclude(
+        {
+          path: '/api/users',
+          method: RequestMethod.POST,
+        },
+        {
+          path: '/api/users/login',
+          method: RequestMethod.POST,
+        },
+      )
+      .forRoutes('');
+  }
+}

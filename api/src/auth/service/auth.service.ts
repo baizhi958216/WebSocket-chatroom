@@ -24,4 +24,8 @@ export class AuthService {
     return bcrypt.compare(password, storedPassword);
     // return `${password}crypted` === storedPassword;
   }
+
+  verifyJwt(jwt: string): Promise<any> {
+    return this.jwtService.verifyAsync(jwt);
+  }
 }

@@ -13,7 +13,7 @@
       "protocol": "inspector",
       "port": 9229,
       "restart": true,
-      "address": "0.0.0.0",
+      "address": "localhost",
       "skipFiles": [
         "<node_internals>/**"
       ]

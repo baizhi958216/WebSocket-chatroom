@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateUserDto } from '../model/dto/create-user.dto';
@@ -22,7 +30,6 @@ export class UserController {
     return this.userService.create(userEntity);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(
     @Query('page') page = 1,
