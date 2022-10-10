@@ -13,8 +13,8 @@ services:
     volumes:
       - ./api:/baizhi958216/src/app
       - /baizhi958216/src/app/node_modules/
-    # RUN in debug mode: yarn start:debug --> also start your vscode debugger
-    command: yarn start:debug
+    # RUN in debug mode: pnpm run start:debug --> also start your vscode debugger
+    command: pnpm run start:debug
     depends_on:
       - postgres
     environment:
@@ -31,7 +31,7 @@ services:
       dockerfile: Dockerfile
       context: ./frontend
       target: development
-    command: yarn start
+    command: pnpm run start
     volumes:
       - ./frontend:/baizhi958216/frontend/src/app
       - /baizhi958216/frontend/src/app/node_modules
