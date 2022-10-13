@@ -9,7 +9,7 @@ import { AuthService } from 'src/auth/service/auth.service';
 import { UserEntity } from 'src/user/model/user.entity';
 import { UserI } from 'src/user/model/user.interface';
 
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -40,6 +40,15 @@ export class UserService {
   async findAll(options: IPaginationOptions): Promise<Pagination<UserI>> {
     return paginate<UserEntity>(this.userRepository, options);
   }
+
+  async findAllByUsername(username: string): Promise<UserI[]> {
+    return this.userRepository.find({
+      where: {
+        username: Like(`%${username.toLowerCase()}%`),
+      },
+    });
+  }
+
   private async hashPassword(password: string): Promise<string> {
     return this.authService.hashPassword(password);
   }

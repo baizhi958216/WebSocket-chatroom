@@ -5,7 +5,7 @@ import { UserI } from 'src/user/model/user.interface';
 
 @Injectable()
 export class UserHelperService {
-  createUserDtoToEntity(createUserDto: CreateUserDto): UserI {
+  async createUserDtoToEntity(createUserDto: CreateUserDto): Promise<UserI> {
     return {
       email: createUserDto.email,
       username: createUserDto.username,
@@ -13,7 +13,7 @@ export class UserHelperService {
     };
   }
 
-  loginUserDtoToEntity(loginUserDto: LoginUserDto): UserI {
+  async loginUserDtoToEntity(loginUserDto: LoginUserDto): Promise<UserI> {
     return {
       email: loginUserDto.email,
       password: loginUserDto.password,

@@ -1,14 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Query,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { LoginUserDto } from '../model/dto/login-user.dto';
 import { LoginResponseI } from '../model/login-response.interface';
@@ -26,7 +17,7 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserI> {
     const userEntity: UserI =
-      this.userHelperService.createUserDtoToEntity(createUserDto);
+      await this.userHelperService.createUserDtoToEntity(createUserDto);
     return this.userService.create(userEntity);
   }
 
@@ -43,11 +34,16 @@ export class UserController {
     });
   }
 
+  @Get('/find-by-username')
+  async findAllByUsername(@Query('username') username: string) {
+    return this.userService.findAllByUsername(username);
+  }
+
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponseI> {
     const userEntity =
       this.userHelperService.loginUserDtoToEntity(loginUserDto);
-    const jwt: string = await this.userService.login(userEntity);
+    const jwt: string = await this.userService.login(await userEntity);
     // return this.userService.login(userEntity);
     return {
       access_token: jwt,
