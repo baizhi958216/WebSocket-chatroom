@@ -1,1 +1,47 @@
-<p>create-room works!</p>
+<div class="container">
+  <div>
+    <div class="dashboard">
+      <a [routerLink]="['../dashboard']">返回会话</a>
+    </div>
+
+    <div>
+      <mat-card>
+        <mat-card-title>创建会话</mat-card-title>
+        <mat-card-content>
+          <form [formGroup]="form" (ngSubmit)="create()">
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="会话名"
+                formControlName="name"
+              />
+              <mat-error *ngIf="name.touched && name.hasError('required')"
+                >会话名不能为空</mat-error
+              >
+            </mat-form-field>
+
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="会话描述"
+                formControlName="description"
+              />
+            </mat-form-field>
+
+            <app-select-users [users]="users.value" (addUser)="addUser(initUser($event))" (removeUser)="removeUser($event.id)"></app-select-users>
+
+            <mat-hint *ngIf="!form.valid"><small>请填写表单</small></mat-hint>
+
+            <div class="button">
+              <button mat-button type="submit" [disabled]="!form.valid">
+                创建会话
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

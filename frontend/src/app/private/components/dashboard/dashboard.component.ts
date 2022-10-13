@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit ,AfterViewInit{
   constructor(private chatService: ChatService) {}
 
   ngOnInit(): void {
-    // this.chatService.createRoom();
+    this.chatService.emitPaginateRooms(10,0)
   }
 
   ngAfterViewInit(): void {
