@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -24,7 +24,9 @@ import { RoomService } from '../service/room-service/room.service';
     ],
   },
 })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+{
   @WebSocketServer()
   server: Server;
   title: string[] = [];
@@ -35,6 +37,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private roomService: RoomService,
     private connectedUserService: ConnectedUserService,
   ) {}
+
+  async onModuleInit() {
+    await this.connectedUserService.deleteAll();
+  }
 
   async handleConnection(socket: Socket) {
     console.log('连接+1');
