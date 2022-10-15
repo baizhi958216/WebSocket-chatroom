@@ -124,6 +124,8 @@ export class ChatGateway
 
   @SubscribeMessage('joinRoom')
   async onJoinRoom(socket: Socket, room: RoomI) {
+    console.log('Join');
+
     const messages = await this.messageService.findMessagesForRoom(room, {
       limit: 25,
       page: 1,
@@ -139,6 +141,7 @@ export class ChatGateway
 
   @SubscribeMessage('leaveRoom')
   async onLeaveRoom(socket: Socket) {
+    console.log('leave');
     await this.joinedRoomService.deleteBySocketId(socket.id);
   }
 
