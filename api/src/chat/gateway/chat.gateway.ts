@@ -10,10 +10,14 @@ import { Socket, Server } from 'socket.io';
 import { AuthService } from 'src/auth/service/auth.service';
 import { UserI } from 'src/user/model/user.interface';
 import { UserService } from 'src/user/service/user-service/user.service';
-import { ConnectedUserI } from '../model/connected-user.interface';
+import { ConnectedUserI } from '../model/connected-user/connected-user.interface';
+import { JoinedRoomI } from '../model/joined-room/joined-room.interface';
+import { MessageI } from '../model/message/message.interface';
 import { PageI } from '../model/page.interface';
-import { RoomI } from '../model/room.interface';
+import { RoomI } from '../model/room/room.interface';
 import { ConnectedUserService } from '../service/connected-user/connected-user.service';
+import { JoinedRoomService } from '../service/joined-room/joined-room.service';
+import { MessageService } from '../service/message/message.service';
 import { RoomService } from '../service/room-service/room.service';
 @WebSocketGateway({
   cors: {
@@ -36,10 +40,13 @@ export class ChatGateway
     private userService: UserService,
     private roomService: RoomService,
     private connectedUserService: ConnectedUserService,
+    private joinedRoomService: JoinedRoomService,
+    private messageService: MessageService,
   ) {}
 
   async onModuleInit() {
     await this.connectedUserService.deleteAll();
+    await this.joinedRoomService.deleteAll();
   }
 
   async handleConnection(socket: Socket) {
@@ -98,6 +105,7 @@ export class ChatGateway
         page: 1,
         limit: 10,
       });
+      rooms.meta.currentPage = rooms.meta.currentPage - 1;
       for (const connection of connections) {
         await this.server.to(connection.socketId).emit('rooms', rooms);
       }
@@ -106,13 +114,49 @@ export class ChatGateway
 
   @SubscribeMessage('paginateRooms')
   async onPaginatRoom(socket: Socket, page: PageI) {
-    page.limit = page.limit > 100 ? 100 : page.limit;
-    page.page = page.page + 1;
     const rooms = await this.roomService.getRoomsForUser(
       socket.data.user.id,
-      page,
+      this.handleIncomingPageRequest(page),
     );
     rooms.meta.currentPage = rooms.meta.currentPage - 1;
     return this.server.to(socket.id).emit('rooms', rooms);
+  }
+
+  @SubscribeMessage('joinRoom')
+  async onJoinRoom(socket: Socket, room: RoomI) {
+    const messages = await this.messageService.findMessagesForRoom(room, {
+      limit: 10,
+      page: 1,
+    });
+    messages.meta.currentPage = messages.meta.currentPage - 1;
+    await this.joinedRoomService.create({
+      socketId: socket.id,
+      user: socket.data.user,
+      room,
+    });
+    await this.server.to(socket.id).emit('messages', messages);
+  }
+
+  @SubscribeMessage('leaveRoom')
+  async onLeaveRoom(socket: Socket) {
+    await this.joinedRoomService.deleteBySocketId(socket.id);
+  }
+
+  @SubscribeMessage('addMessage')
+  async onAddMessage(socket: Socket, message: MessageI) {
+    const createdMessage: MessageI = await this.messageService.create({
+      ...message,
+      user: socket.data.user,
+    });
+    const room: RoomI = await this.roomService.getRoom(createdMessage.room.id);
+    const joinedUsers: JoinedRoomI[] = await this.joinedRoomService.findByRoom(
+      room,
+    );
+  }
+
+  private handleIncomingPageRequest(page: PageI) {
+    page.limit = page.limit > 100 ? 100 : page.limit;
+    page.page = page.page + 1;
+    return page;
   }
 }
