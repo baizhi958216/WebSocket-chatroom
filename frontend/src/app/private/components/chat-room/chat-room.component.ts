@@ -27,7 +27,7 @@ export class ChatRoomComponent implements OnInit {
 
   ngOnChanges(changes:SimpleChanges){
     this.chatService.leaveRoom(changes['chatRoom'].previousValue)
-    console.log(changes['chatRoom'].previousValue);
+    console.log('Let it Send',changes['chatRoom'].previousValue);
     if(this.chatRoom){
       this.chatService.joinRoom(this.chatRoom)
     }
@@ -38,6 +38,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   sendMessage(){
+    console.log(this.chatMessage.value,this.chatRoom);
     this.chatService.sendMessage({text:this.chatMessage.value,room:this.chatRoom})
     this.chatMessage.reset()
   }

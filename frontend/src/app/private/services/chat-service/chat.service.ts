@@ -12,11 +12,12 @@ export class ChatService {
   constructor(private socket: CustomSocket,private snackbar:MatSnackBar) {}
 
   sendMessage(message:MessageI) {
+    console.log(message);
     this.socket.emit('addMessage',message)
   }
 
   joinRoom(room:RoomI){
-    this.socket.emit('leaveRoom',room)
+    this.socket.emit('joinRoom',room)
   }
 
   leaveRoom(room:RoomI){

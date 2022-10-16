@@ -124,8 +124,7 @@ export class ChatGateway
 
   @SubscribeMessage('joinRoom')
   async onJoinRoom(socket: Socket, room: RoomI) {
-    console.log('Join');
-
+    console.log('join');
     const messages = await this.messageService.findMessagesForRoom(room, {
       limit: 25,
       page: 1,
@@ -151,11 +150,12 @@ export class ChatGateway
       ...message,
       user: socket.data.user,
     });
+
     const room: RoomI = await this.roomService.getRoom(createdMessage.room.id);
     const joinedUsers: JoinedRoomI[] = await this.joinedRoomService.findByRoom(
       room,
     );
-    console.log(joinedUsers);
+    console.log('joinedUsers', joinedUsers);
   }
 
   private handleIncomingPageRequest(page: PageI) {
