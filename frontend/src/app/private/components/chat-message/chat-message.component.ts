@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MessageI } from 'src/app/model/message.interface';
+import { UserI } from 'src/app/model/user.interface';
+import { AuthService } from 'src/app/public/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-chat-message',
@@ -10,7 +12,9 @@ export class ChatMessageComponent implements OnInit {
 
   @Input() message:MessageI;
 
-  constructor() { }
+  user:UserI = this.authService.getLoggedInUser()
+
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
   }
