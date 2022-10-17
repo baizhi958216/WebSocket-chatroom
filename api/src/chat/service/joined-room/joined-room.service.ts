@@ -27,11 +27,13 @@ export class JoinedRoomService {
     });
   }
   async findByRoom(room: RoomI): Promise<JoinedRoomI[]> {
-    return this.joinedRoomRepository.find({
+    const _j = await this.joinedRoomRepository.find({
       where: {
         id: room.id,
       },
     });
+    console.log(_j);
+    return _j;
   }
   async deleteBySocketId(socketId: string) {
     return this.joinedRoomRepository.delete({ socketId: socketId });

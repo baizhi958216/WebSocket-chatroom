@@ -155,7 +155,11 @@ export class ChatGateway
     const joinedUsers: JoinedRoomI[] = await this.joinedRoomService.findByRoom(
       room,
     );
-    console.log('joinedUsers', joinedUsers);
+    console.log(joinedUsers);
+    for (const user of joinedUsers) {
+      console.log('User: ', user);
+      await this.server.to(user.socketId).emit('messageAdded', createdMessage);
+    }
   }
 
   private handleIncomingPageRequest(page: PageI) {

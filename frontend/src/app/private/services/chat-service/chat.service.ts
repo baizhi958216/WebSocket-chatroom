@@ -11,6 +11,10 @@ import { CustomSocket } from '../../sockets/custom-socket';
 export class ChatService {
   constructor(private socket: CustomSocket,private snackbar:MatSnackBar) {}
 
+  getAddedMessage():Observable<MessageI>{
+    return this.socket.fromEvent<MessageI>('messageAdded')
+  }
+
   sendMessage(message:MessageI) {
     console.log(message);
     this.socket.emit('addMessage',message)
