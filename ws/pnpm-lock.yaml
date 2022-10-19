@@ -5,8 +5,10 @@ specifiers:
   '@nestjs/common': ^9.0.0
   '@nestjs/core': ^9.0.0
   '@nestjs/platform-express': ^9.0.0
+  '@nestjs/platform-ws': ^9.1.4
   '@nestjs/schematics': ^9.0.0
   '@nestjs/testing': ^9.0.0
+  '@nestjs/websockets': ^9.1.4
   '@types/express': ^4.17.13
   '@types/jest': 28.1.8
   '@types/node': ^16.0.0
@@ -30,16 +32,20 @@ specifiers:
   tsconfig-paths: 4.1.0
   typescript: ^4.7.4
   utf-8-validate: ^5.0.2
+  ws: ^8.9.0
 
 dependencies:
   '@nestjs/common': 9.1.4_yzt46al3aifnexifjjdb4dxxja
-  '@nestjs/core': 9.1.4_os3bpar6zvfsuh6rrdsifrg6hi
+  '@nestjs/core': 9.1.4_2cjrwq6cro54oahlqjnzgqzp2u
   '@nestjs/platform-express': 9.1.4_osbqhc5bxkxr7p4xaw5wgzf7bi
+  '@nestjs/platform-ws': 9.1.4_z36hexpl4koifmc7rtebxffrrm
+  '@nestjs/websockets': 9.1.4_qvjwqjnaz3qmasjjqxn7qnweey
   bufferutil: 4.0.7
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 7.5.7
   utf-8-validate: 5.0.9
+  ws: 8.9.0
 
 devDependencies:
   '@nestjs/cli': 9.1.4
@@ -889,7 +895,7 @@ packages:
       tslib: 2.4.0
       uuid: 9.0.0
 
-  /@nestjs/core/9.1.4_os3bpar6zvfsuh6rrdsifrg6hi:
+  /@nestjs/core/9.1.4_2cjrwq6cro54oahlqjnzgqzp2u:
     resolution: {integrity: sha512-S6KpGeKotPYh126hhRqYLhvg9lxSbAmGfEbK8m09crIK7CYP05t32KtT6n12xl5/iva1G4Ch87Z/3rYP76etUg==}
     requiresBuild: true
     peerDependencies:
@@ -909,6 +915,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.1.4_yzt46al3aifnexifjjdb4dxxja
       '@nestjs/platform-express': 9.1.4_osbqhc5bxkxr7p4xaw5wgzf7bi
+      '@nestjs/websockets': 9.1.4_qvjwqjnaz3qmasjjqxn7qnweey
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
@@ -928,7 +935,7 @@ packages:
       '@nestjs/core': ^9.0.0
     dependencies:
       '@nestjs/common': 9.1.4_yzt46al3aifnexifjjdb4dxxja
-      '@nestjs/core': 9.1.4_os3bpar6zvfsuh6rrdsifrg6hi
+      '@nestjs/core': 9.1.4_2cjrwq6cro54oahlqjnzgqzp2u
       body-parser: 1.20.0
       cors: 2.8.5
       express: 4.18.1
@@ -936,6 +943,20 @@ packages:
       tslib: 2.4.0
     transitivePeerDependencies:
       - supports-color
+
+  /@nestjs/platform-ws/9.1.4_z36hexpl4koifmc7rtebxffrrm:
+    resolution: {integrity: sha512-yHLloYioPdcx2RISM9w7AiHTLa7FwvecaT76QzaGraCtmE0r/ldDQAa5JNQ+620JZpCCGoq307pVQHNRYyJtJQ==}
+    peerDependencies:
+      '@nestjs/common': ^9.0.0
+      '@nestjs/websockets': ^9.0.0
+      rxjs: ^7.1.0
+    dependencies:
+      '@nestjs/common': 9.1.4_yzt46al3aifnexifjjdb4dxxja
+      '@nestjs/websockets': 9.1.4_qvjwqjnaz3qmasjjqxn7qnweey
+      rxjs: 7.5.7
+      tslib: 2.4.0
+      ws: 8.9.0
+    dev: false
 
   /@nestjs/schematics/9.0.3_qul7ung6gmj6jydd3dgpqap7gu:
     resolution: {integrity: sha512-kZrU/lrpVd2cnK8I3ibDb3Wi1ppl3wX3U3lVWoL+DzRRoezWKkh8upEL4q0koKmuXnsmLiu3UPxFeMOrJV7TSA==}
@@ -981,10 +1002,30 @@ packages:
         optional: true
     dependencies:
       '@nestjs/common': 9.1.4_yzt46al3aifnexifjjdb4dxxja
-      '@nestjs/core': 9.1.4_os3bpar6zvfsuh6rrdsifrg6hi
+      '@nestjs/core': 9.1.4_2cjrwq6cro54oahlqjnzgqzp2u
       '@nestjs/platform-express': 9.1.4_osbqhc5bxkxr7p4xaw5wgzf7bi
       tslib: 2.4.0
     dev: true
+
+  /@nestjs/websockets/9.1.4_qvjwqjnaz3qmasjjqxn7qnweey:
+    resolution: {integrity: sha512-tRiBVhBo41jsLsrQ1WMhO1EvDUSO2ydmCdB1x8pMC69bSCvEVj6VvL1/OJ2lP4j65g/4rFMtp5qBSlwPUuHqkw==}
+    peerDependencies:
+      '@nestjs/common': ^9.0.0
+      '@nestjs/core': ^9.0.0
+      '@nestjs/platform-socket.io': ^9.0.0
+      reflect-metadata: ^0.1.12
+      rxjs: ^7.1.0
+    peerDependenciesMeta:
+      '@nestjs/platform-socket.io':
+        optional: true
+    dependencies:
+      '@nestjs/common': 9.1.4_yzt46al3aifnexifjjdb4dxxja
+      '@nestjs/core': 9.1.4_2cjrwq6cro54oahlqjnzgqzp2u
+      iterare: 1.2.1
+      object-hash: 3.0.0
+      reflect-metadata: 0.1.13
+      rxjs: 7.5.7
+      tslib: 2.4.0
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1204,7 +1245,7 @@ packages:
     dev: true
 
   /@types/superagent/4.1.15:
-    resolution: {integrity: sha512-iiXaOL2wSbnSY4qg0mFPWJHL9iwyEsoNYwaHF2w58/fsVAQJlj+KUfFAFZu+nzbz+b7dUprJEAc+O9vhHHhQTA==, tarball: '@types/superagent/-/superagent-4.1.14.tgz'}
+    resolution: {integrity: sha512-iiXaOL2wSbnSY4qg0mFPWJHL9iwyEsoNYwaHF2w58/fsVAQJlj+KUfFAFZu+nzbz+b7dUprJEAc+O9vhHHhQTA==, tarball: '@types/superagent/-/superagent-4.1.15.tgz'}
     deprecated: '[WARNING] Use 4.1.14 instead of 4.1.15, reason: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/58445'
     dependencies:
       '@types/cookiejar': 2.1.2
@@ -4856,6 +4897,19 @@ packages:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: true
+
+  /ws/8.9.0:
+    resolution: {integrity: sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
