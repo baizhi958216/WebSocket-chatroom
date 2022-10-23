@@ -6,6 +6,7 @@ import { ChatGateWay } from './chat/gateway/chat.gateway';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserEntity } from './user/model/user.entity';
+import { ChatModule } from './chat/chat.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -20,6 +21,7 @@ import { UserEntity } from './user/model/user.entity';
       synchronize: true,
     }),
     UserModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateWay],
