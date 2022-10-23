@@ -5,7 +5,7 @@ import {
   WsResponse,
 } from '@nestjs/websockets';
 
-@WebSocketGateway(3002)
+@WebSocketGateway(1146)
 export class ChatGateWay {
   @SubscribeMessage('hello')
   hello(@MessageBody() data: any): any {

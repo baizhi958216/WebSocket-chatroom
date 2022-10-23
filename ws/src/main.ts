@@ -8,6 +8,6 @@ async function bootstrap() {
     origin: '*',
   });
   app.useWebSocketAdapter(new WsAdapter(app));
-  await app.listen(3000);
+  await app.listen(1145);
 }
 bootstrap();
